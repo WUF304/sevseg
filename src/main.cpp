@@ -32,7 +32,9 @@ void loop() {
         }
     }
     #ifdef MULTI
-    multi_shift(821);
+    // write out the number 821 and show a dot with 8. if you have only one 7 
+    // segment display connected you will see the number 8 with a dot
+    multi_shift(821, 2);
     delay(2000);
     #endif
 }

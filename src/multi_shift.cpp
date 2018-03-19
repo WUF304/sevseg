@@ -5,23 +5,11 @@
 
 #include "global.hpp"
 
-/**
- * @brief Getthe last digit of a number
- * 
- * @param number To get the last digit from
- * @return short  Digit as short
- */
 short last_digit (const int number)
 {
     return number % 10;
 }
 
-/**
- * @brief Create a digits object from a number
- * 
- * @param number To get the digits from
- * @return Digits 
- */
 Digits number_to_digits(int number)
 {
     Digits d;
@@ -47,13 +35,20 @@ Digits number_to_digits(int number)
     return d;
 }
 
-void multi_shift(int number)
+void multi_shift(int number, int dot_pos)
 {
     digitalWrite(LATCH_PIN, LOW);
     Digits d = number_to_digits(number);
+    d.dot_pos = dot_pos;
     for (uint8_t pos = 0; pos <= d.len; pos++)
-    {
-        shiftOut(DATA_PIN, CLOCK_PIN, LSBFIRST, sev_seg_reg[d.digits[pos]]);
+    {   
+        uint8_t transmit_byte = sev_seg_reg[d.digits[pos]];
+        // if dot_pos is equal to current pos activate the dot led
+        if (d.dot_pos != -1 && static_cast<uint8_t>(d.dot_pos) == pos)
+        {
+           transmit_byte |= 0x01;
+        }
+        shiftOut(DATA_PIN, CLOCK_PIN, LSBFIRST, transmit_byte);
     }
     digitalWrite(LATCH_PIN, HIGH);
 }
