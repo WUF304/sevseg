@@ -35,11 +35,13 @@ Digits number_to_digits(int number)
     return d;
 }
 
-void multi_shift(int number, int dot_pos)
+void multi_shift(int number, uint8_t left_pad, int dot_pos)
 {
-    digitalWrite(LATCH_PIN, LOW);
+    // get the digits from number
     Digits d = number_to_digits(number);
     d.dot_pos = dot_pos;
+    digitalWrite(LATCH_PIN, LOW);
+    //transmit the data. number is transmitted from right to left
     for (uint8_t pos = 0; pos < d.len; pos++)
     {   
         uint8_t transmit_byte = sev_seg_reg[d.digits[pos]];
@@ -49,6 +51,16 @@ void multi_shift(int number, int dot_pos)
            transmit_byte |= 0x01;
         }
         shiftOut(DATA_PIN, CLOCK_PIN, LSBFIRST, transmit_byte);
+    }
+    // left pad numbers smaller than left_pad
+    if (d.len < left_pad)
+    {
+        for (int pad_digits = left_pad - d.len; pad_digits > 0; pad_digits--)
+        {
+            Serial.println("left padding " + String(pad_digits));
+            Serial.println("d.len " + String(d.len));
+            shiftOut(DATA_PIN, CLOCK_PIN, LSBFIRST, 0x00);
+        }
     }
     digitalWrite(LATCH_PIN, HIGH);
 }

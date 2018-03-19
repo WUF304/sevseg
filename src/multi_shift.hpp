@@ -31,7 +31,9 @@ Digits number_to_digits(int number);
  * @brief Shift every digit from number
  * 
  * @param number Number to shift out
- * @param dot_pos Position of the dot. Use -1 to deactive the feature
+ * @param left_pad Left pad any number with less digits than this value. This
+ *        value is effectively the number of displays you are using
+ * @param dot_pos Position of the dot. Use -1 to deactivate the feature
  * 
  * @details
  * 
@@ -42,4 +44,4 @@ Digits number_to_digits(int number);
  * This is also important for the dot position. Choose the position with keeping
  * in mind that the digits of the number are stored in reverse order.
  */
-void multi_shift(int number, int dot_pos = -1);
+void multi_shift(int number, uint8_t left_pad = 0, int dot_pos = -1);
