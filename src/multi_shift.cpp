@@ -24,7 +24,7 @@ Digits number_to_digits(int number)
         d.digits[arr_pos] = ld;
         // divide number so we drop the currently read digit
         number /= 10;
-        d.len = arr_pos;
+        d.len = arr_pos + 1;
         arr_pos++;
         // our array only stores 12 digits
         if (arr_pos > 12)
@@ -40,7 +40,7 @@ void multi_shift(int number, int dot_pos)
     digitalWrite(LATCH_PIN, LOW);
     Digits d = number_to_digits(number);
     d.dot_pos = dot_pos;
-    for (uint8_t pos = 0; pos <= d.len; pos++)
+    for (uint8_t pos = 0; pos < d.len; pos++)
     {   
         uint8_t transmit_byte = sev_seg_reg[d.digits[pos]];
         // if dot_pos is equal to current pos activate the dot led
