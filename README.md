@@ -25,7 +25,7 @@ This section covers the needed components and the circuit diagram
 
 ### Circuit Diagram
 
-**add link**
+![sevseg schematics](https://github.com/crapp/sevseg/raw/master/schematics/sevseg_schematics.png)
 
 # General use
 
